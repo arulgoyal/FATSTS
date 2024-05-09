@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+    Merge sort for DLL
+
+import java.util.*;
+class Main{
+static class Node {
+	int data;
+	Node next;
+	Node(int d){
+		data = d;
+		next = null;
+	}
+}
+static class MergeLists {
+	Node head;
+	public void addToTheLast(Node node){
+		if (head == null)
+			head = node;
+		else {
+			Node temp = head;
+			while (temp.next != null)
+				temp = temp.next;
+			temp.next = node;
+		}
+	}
+	void printList(){
+		Node temp = head;
+		while (temp != null) {
+			System.out.print(temp.data + " ");
+			temp = temp.next;
+		}
+		System.out.println();
+	}}
+	static class sol {
+    public Node sortedMerge(Node list1, Node list2){
+        Node li1 = list1, li2 = list2;
+        Node dummy = new Node(0);
+        Node temp = dummy;
+        if(list1 == null)
+            return list2;
+        if(list2 == null)
+            return list1;
+        while(li1 != null && li2 != null){
+            if(li1.data < li2.data){
+                temp.next = li1;
+                li1 = li1.next;
+            }else{
+                temp.next = li2;
+                li2 = li2.next;
+            }temp = temp.next;}
+        if(li1 != null) temp.next = li1;
+        if(li2 != null)temp.next = li2;
+        return dummy.next;
+    }
+}
+	public static void main(String args[]){
+	    Scanner s=new Scanner(System.in);
+		MergeLists llist1 = new MergeLists();
+		MergeLists llist2 = new MergeLists();
+		int n=s.nextInt();
+		for(int i=0; i<n; i++)
+		    llist1.addToTheLast(new Node(s.nextInt()));
+		int m=s.nextInt();
+		for(int i=0; i<m; i++)
+		    llist2.addToTheLast(new Node(s.nextInt()));
+		llist1.head = new sol().sortedMerge(llist1.head,llist2.head);
+		System.out.println("Merged Linked List is:");
+		llist1.printList();
+	}
+
+}
+</body>
+</html>
