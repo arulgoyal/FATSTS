@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+    ````Left view of Binary Tree:````
+
+import java.util.*;
+class Node {
+  Node left;
+  Node right;
+  int data;
+}
+
+class BinaryTree {
+  int maxLevel;
+  
+  public void leftViewOfTree(Node node, int level) {
+    if(node == null) {
+      return;
+    }   
+    if(level >= maxLevel) {
+      System.out.print(node.data + " ");
+      maxLevel++;
+    }
+    leftViewOfTree(node.left, level + 1);
+    leftViewOfTree(node.right, level + 1);
+  }
+  
+  public Node createNewNode(int val) {
+    if(val == -1) {
+      return null;
+    }
+    Node newNode = new Node();
+    newNode.data = val;
+    newNode.left = null;
+    newNode.right = null;
+    return newNode;
+  }
+  
+  // Assuming the input format is level-order with -1 for nulls
+  public Node constructTreeFromString(String[] values) {
+    if(values.length == 0 || values[0].equals("-1")) {
+      return null;
+    }
+    
+    Node root = createNewNode(Integer.parseInt(values[0]));
+    Queue<Node> queue = new LinkedList<>();
+    queue.add(root);
+    int i = 1;
+    
+    while(!queue.isEmpty() && i < values.length) {
+      Node current = queue.poll();
+      
+      if(i < values.length && !values[i].equals("-1")) {
+        current.left = createNewNode(Integer.parseInt(values[i]));
+        queue.add(current.left);
+      }
+      i++;
+      
+      if(i < values.length && !values[i].equals("-1")) {
+        current.right = createNewNode(Integer.parseInt(values[i]));
+        queue.add(current.right);
+      }
+      i++;
+    }
+    
+    return root;
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    //String input = "2,7,5,3,6,-1,9,-1,-1,5,11,-1,4"; // Example input
+    Scanner sc = new Scanner(System.in);
+    String input = sc.nextLine();
+    String[] values = input.split(",");
+    
+    BinaryTree a = new BinaryTree();
+    
+    Node root = a.constructTreeFromString(values);
+    
+    a.leftViewOfTree(root, 0);
+  }
+}
+
+</body>
+</html>

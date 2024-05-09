@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+    ```K-Ary Heap````
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+    private static int n;
+    private static ArrayList<Integer> arl = new ArrayList<Integer>();
+
+    public static int getMax() {
+        if (isEmpty()) {
+            return Integer.MIN_VALUE;
+        }
+        return arl.get(0);
+    }
+
+    public static boolean isEmpty() {
+        return arl.size() == 0;
+    }
+
+    public static void insert(int value) {
+        arl.add(value);
+        int childrenIndex = arl.size() - 1;
+        int parentIndex = (childrenIndex - 1) / n;
+        while (parentIndex >= 0 && arl.get(childrenIndex) > arl.get(parentIndex)) {
+            int temp = arl.get(childrenIndex);
+            arl.set(childrenIndex, arl.get(parentIndex));
+            arl.set(parentIndex, temp);
+
+            childrenIndex = parentIndex;
+            parentIndex = (childrenIndex - 1) / n;
+        }
+    }
+
+    public static void removeMax() {
+        if (isEmpty()) {
+            return;
+        }
+
+        arl.set(0, arl.get(arl.size() - 1));
+        arl.remove(arl.size() - 1);
+
+        int parentIndex = 0;
+
+        while (true) {
+            int largestValueIndex = parentIndex;
+
+            for (int i = n * parentIndex + 1; i <= (n * parentIndex + n) && i < arl.size(); i++) {
+                if (arl.get(largestValueIndex) < arl.get(i)) {
+                    largestValueIndex = i;
+                }
+            }
+
+            if (largestValueIndex == parentIndex) {
+                break;
+            } else {
+                int temp = arl.get(parentIndex);
+                arl.set(parentIndex, arl.get(largestValueIndex));
+                arl.set(largestValueIndex, temp);
+
+                parentIndex = largestValueIndex;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        
+        // Read n, the branching factor of the heap
+        n = in.nextInt();
+        in.nextLine(); // Consume the newline
+        
+        // Read the next line of input, a comma-separated list of integers
+        String str = in.nextLine();
+        String[] str_arr = str.split(",");
+        
+        for (int i = 0; i < str_arr.length; i++) {
+            int temp = Integer.parseInt(str_arr[i].trim()); // trim() to remove leading/trailing spaces
+            insert(temp);
+        }
+
+        System.out.println("Get Top element: " + getMax());
+        System.out.println("Heap elements: " + arl);
+        removeMax();
+        System.out.println("After removing max, top element: " + getMax());
+    }
+}
+</body>
+</html>

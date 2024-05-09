@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+    ````BFS````
+
+    import java.util.*;
+    
+    public class Main {
+        int V;
+        LinkedList<Integer>[] adj;
+    
+        Main(int v) {
+            V = v;
+            adj = new LinkedList[v];
+            for (int i = 0; i < v; i++) {
+                adj[i] = new LinkedList<>();
+            }
+        }
+    
+        void addEdges(int v, int e) {
+            adj[v].add(e);
+            adj[e].add(v); // Assuming it's an undirected graph
+        }
+    
+        void Main(int s) {
+            boolean visited[] = new boolean[V];
+            Queue<Integer> queue = new LinkedList<>();
+    
+            visited[s] = true;
+            queue.add(s);
+    
+            while (queue.size() != 0) {
+                s = queue.poll();
+                System.out.print(s + " ");
+    
+                Iterator<Integer> i = adj[s].listIterator();
+                while (i.hasNext()) {
+                    int n = i.next();
+                    if (!visited[n]) {
+                        visited[n] = true;
+                        queue.add(n);
+                    }
+                }
+            }
+        }
+    
+        public static void main(String[] args) {
+            Scanner scanner = new Scanner(System.in);
+    
+            //System.out.println("Enter the number of vertices:");
+            int n = scanner.nextInt();
+            scanner.nextLine(); // Consume newline left-over
+    
+            Main graph = new Main(n);
+    
+            //System.out.println("Enter comma-separated edges (v e), e.g., '0 1, 0 2, 1 2':");
+            String[] edgesInput = scanner.nextLine().split(", ");
+            for (String edge : edgesInput) {
+                String[] vertices = edge.split(" ");
+                int v = Integer.parseInt(vertices[0]);
+                int e = Integer.parseInt(vertices[1]);
+                graph.addEdges(v, e);
+            }
+    
+            //System.out.println("Enter the starting vertex for Main:");
+            int S = scanner.nextInt();
+    
+            //System.out.println("Main traversal starting from vertex " + S + ": ");
+            graph.Main(S);
+    
+            scanner.close();
+        }
+    }
+    
+</body>
+</html>

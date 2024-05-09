@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+    ````Recover BST:````
+
+import java.util.*;
+
+import java.io.*;
+import java.util.*;
+class TreeNode
+{
+    int data;
+    TreeNode right;
+    TreeNode left;
+    TreeNode(int data)
+    {
+        this.data=data;
+        this.left=null;
+        this.right=null;
+    }
+ }
+public class Main
+{
+    static TreeNode build(String st[])
+    {
+        if(st[0]=="N" || st.length==0)
+        return null;
+        TreeNode root= new TreeNode(Integer.parseInt(st[0]));
+        Queue<TreeNode> Q=new LinkedList<TreeNode>();
+        Q.add(root);
+        int i=1;
+        while(!Q.isEmpty() && i<st.length)
+        {
+            TreeNode current_element=Q.poll();
+            String current_value=st[i];
+            if(!current_value.equals("N"))
+            {
+                int element=Integer.parseInt(current_value);
+                current_element.left=new TreeNode(element);
+                Q.add(current_element.left);
+            }
+            i++;
+            if(i>=st.length)
+              break;
+              current_value=st[i];
+            if(!current_value.equals("N"))
+            {
+                int element=Integer.parseInt(current_value);
+                current_element.right=new TreeNode(element);
+                Q.add(current_element.right);
+            }
+            i++;  
+        }return root;}
+
+     static TreeNode firstNode,secondNode,prevNode;
+    public static void recoverTree(TreeNode root) {
+        if(root==null)
+            return;
+        inorderTraversal(root);
+        if(firstNode != null && secondNode != null){
+            int temp = secondNode.data;
+            secondNode.data = firstNode.data;
+            firstNode.data = temp;
+        }
+    }
+    private static void inorderTraversal(TreeNode root){
+        if(root==null)
+            return;
+         inorderTraversal(root.left);
+        if(prevNode != null && root.data < prevNode.data && firstNode == null) {
+               firstNode = prevNode;
+        }
+        if (prevNode != null && root.data < prevNode.data && firstNode != null) {
+               secondNode = root;
+        }
+        prevNode = root;
+        inorderTraversal(root.right);
+    }
+    public static void inorder(TreeNode temp)
+    {
+        if(temp==null)
+            return;
+        inorder(temp.left);
+        System.out.print(temp.data+" ");
+        inorder(temp.right);
+    }
+	public static void main(String[] args) 
+	{
+	    Scanner sc= new Scanner(System.in);
+	    String st[]=sc.nextLine().split(" ");
+	    if(st[0].equals("N"))
+	    {
+		System.out.println("0");
+		return;
+	    }
+	    TreeNode root=build(st);
+	    inorder(root);
+	    recoverTree(root);
+	    System.out.println("\nAfter Recovery");
+            inorder(root);	
+}
+}
+
+</body>
+</html>

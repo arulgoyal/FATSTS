@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+    Distributing items when a person cannot take more than two items of same type (no scanner)
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    // Function to check occurrence of each element
+    static boolean checkCount(int []arr, int n, int k){
+        int count;
+        // Start traversing the elements
+        for (int i = 0; i < n; i++){
+            // Count occurrences of current element
+            count = 0;
+            for (int j = 0; j < n; j++){
+                if (arr[j] == arr[i])
+                    count++;
+                // If count of any element is greater than 2*k then return false
+                if (count > 2 * k)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    // Drivers code
+    static public void main (String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int k = sc.nextInt();
+        int n = sc.nextInt();
+        int []arr = new int[n];
+        for (int i = 0; i < n; i++){
+            arr[i] = sc.nextInt();
+        }
+        if(checkCount(arr, n, k)) 
+            System.out.println("Yes");
+        else
+            System.out.println("No");
+    }
+}
+</body>
+</html>

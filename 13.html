@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+    HashMap to TreeMap
+
+import java.util.*; 
+import java.util.stream.*; 
+class Main { 
+	public static Map<Integer, String> convertToTreeMap(Map<String, String> hashMap){ 
+		Map<Integer, String> treeMap = new TreeMap<>(); 
+		for (Map.Entry<String, String> e : hashMap.entrySet())
+			treeMap.put(Integer.parseInt(e.getKey()), e.getValue()); 
+		return treeMap; 
+	} 
+	public static void main(String args[]) {
+		Map<String, String> hashMap = new HashMap<>();
+		Scanner s=new Scanner(System.in);
+        	int n=s.nextInt();
+        	for(int i=0; i<n; i++)
+            	hashMap.put(s.next(),s.next());
+		System.out.println("HashMap: " + hashMap); 
+		Map<Integer, String> treeMap = convertToTreeMap(hashMap); 
+		System.out.println("TreeMap: " + treeMap); 
+	} 
+}
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+    ````Vertical Order Traversal````
+
+import java.util.*;
+
+public class Main{
+    
+    static TreeMap<Integer, LinkedList<Integer>> map= new TreeMap<>();
+    
+    static class TreeNode {
+        int data;
+        TreeNode left=null,right=null;
+        TreeNode(int d){
+            data=d;
+        }
+    }
+    static TreeNode buildTrees(String st[])
+    {
+        if(st[0]=="N" || st.length==0)
+        return null;
+        TreeNode root= new TreeNode(Integer.parseInt(st[0]));
+        Queue<TreeNode> Q=new LinkedList<TreeNode>();
+        Q.add(root);
+        int i=1;
+        while(!Q.isEmpty() && i<st.length)
+        {
+            TreeNode current_element=Q.poll();
+            String current_value=st[i];
+            if(!current_value.equals("N"))
+            {
+                int element=Integer.parseInt(current_value);
+                current_element.left=new TreeNode(element);
+                Q.add(current_element.left);
+            }
+            i++;
+            if(i>=st.length)
+              break;
+              current_value=st[i];
+            if(!current_value.equals("N"))
+            {
+                int element=Integer.parseInt(current_value);
+                current_element.right=new TreeNode(element);
+                Q.add(current_element.right);
+            }
+            i++;  
+        }return root;}
+    
+    static LinkedList<Integer> key=new LinkedList<>(); 
+
+    static void MapOrder(TreeNode crt,int x){
+        if(crt==null)
+         return;
+         
+         MapOrder(crt.left,x-1);
+         LinkedList<Integer> t= map.get(x);
+         
+         if(t==null){
+             t= new LinkedList<>();
+             t.add(crt.data);
+	     key.add(x);
+         }
+         else
+          t.add(crt.data);
+          
+         map.put(x,t);
+          
+         MapOrder(crt.right,x+1);
+    }
+    
+	public static void main(String[] args) {
+		  Scanner sc=new Scanner(System.in);
+        String st[]=sc.nextLine().split(" ");
+        TreeNode root= buildTrees(st);
+		MapOrder(root,0);
+
+        	key.sort(Comparator.naturalOrder());
+
+		while(key.peek()!=null)
+		 System.out.println(map.get(key.remove()));		
+		
+	}
+}
+</body>
+</html>
